@@ -103,7 +103,7 @@ public class ConfigController implements InterfaceExtender
                 {
                     result.add ( new MenuEntry ( "APT", 1_500, LinkTarget.createFromController ( ConfigController.class, "edit" ).expand ( model ), null, null ) );
                 }
-                result.add ( new MenuEntry ( "Help", Integer.MAX_VALUE, "APT", 2_000, LinkTarget.createFromController ( ConfigController.class, "help" ).expand ( model ), Modifier.DEFAULT, "info-sign" ) );
+                result.add ( new MenuEntry ( "Help", Integer.MAX_VALUE, "APT", 2_000, LinkTarget.createFromController ( ConfigController.class, "help" ).expand ( model ), Modifier.LINK, "info-sign" ) );
             }
 
             return result;
