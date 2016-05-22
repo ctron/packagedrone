@@ -41,6 +41,7 @@ import org.eclipse.packagedrone.web.RequestMapping;
 import org.eclipse.packagedrone.web.RequestMethod;
 import org.eclipse.packagedrone.web.ViewResolver;
 import org.eclipse.packagedrone.web.common.InterfaceExtender;
+import org.eclipse.packagedrone.web.common.Modifier;
 import org.eclipse.packagedrone.web.common.menu.MenuEntry;
 import org.eclipse.packagedrone.web.controller.ControllerInterceptor;
 import org.eclipse.packagedrone.web.controller.binding.BindingResult;
@@ -102,6 +103,7 @@ public class ConfigController implements InterfaceExtender
                 {
                     result.add ( new MenuEntry ( "APT", 1_500, LinkTarget.createFromController ( ConfigController.class, "edit" ).expand ( model ), null, null ) );
                 }
+                result.add ( new MenuEntry ( "Help", Integer.MAX_VALUE, "APT", 2_000, LinkTarget.createFromController ( ConfigController.class, "help" ).expand ( model ), Modifier.DEFAULT, "info-sign" ) );
             }
 
             return result;
@@ -111,7 +113,7 @@ public class ConfigController implements InterfaceExtender
     }
 
     @RequestMapping ( "/channel/{channelId}/edit" )
-    public ModelAndView edit ( @PathVariable ( "channelId" ) final String channelId) throws Exception
+    public ModelAndView edit ( @PathVariable ( "channelId" ) final String channelId ) throws Exception
     {
         return Channels.withChannel ( this.service, channelId, ReadableChannel.class, channel -> {
 
@@ -136,7 +138,7 @@ public class ConfigController implements InterfaceExtender
     }
 
     @RequestMapping ( value = "/channel/{channelId}/edit", method = RequestMethod.POST )
-    public ModelAndView editPost ( @PathVariable ( "channelId" ) final String channelId, @Valid @FormData ( "command" ) final ChannelConfiguration cfg, final BindingResult result) throws Exception
+    public ModelAndView editPost ( @PathVariable ( "channelId" ) final String channelId, @Valid @FormData ( "command" ) final ChannelConfiguration cfg, final BindingResult result ) throws Exception
     {
         return Channels.withChannel ( this.service, channelId, ModifiableChannel.class, channel -> {
 
@@ -155,4 +157,19 @@ public class ConfigController implements InterfaceExtender
         } );
     }
 
+    @RequestMapping ( "/channel/{channelId}/help.apt" )
+    public ModelAndView help ( @PathVariable ( "channelId" ) final String channelId )
+    {
+        return Channels.withChannel ( this.service, channelId, ReadableChannel.class, channel -> {
+
+            final Map<String, Object> model = new HashMap<> ();
+
+            model.put ( "aptRepo", channel.hasAspect ( "apt" ) );
+            model.put ( "channel", channel.getInformation () );
+            //            model.put ( "deployGroups", this.service.getChannelDeployGroups ( By.id ( channelId ) ).orElse ( Collections.emptyList () ) );
+            //            model.put ( "sitePrefix", this.sitePrefixService.getSitePrefix () );
+
+            return new ModelAndView ( "helpApt", model );
+        } );
+    }
 }
