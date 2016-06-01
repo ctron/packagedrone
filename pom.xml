@@ -92,6 +92,7 @@
 		<module>bundles/org.eclipse.packagedrone.repo</module>
 		<module>bundles/org.eclipse.packagedrone.repo.adapter.deb</module>
 		<module>bundles/org.eclipse.packagedrone.repo.adapter.deb.web</module>
+		<module>bundles/org.eclipse.packagedrone.repo.adapter.docker</module>
 		<module>bundles/org.eclipse.packagedrone.repo.adapter.maven</module>
 		<module>bundles/org.eclipse.packagedrone.repo.adapter.maven.tests</module>
 		<module>bundles/org.eclipse.packagedrone.repo.adapter.maven.web</module>

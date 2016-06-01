@@ -63,6 +63,7 @@
       <plugin id="org.eclipse.packagedrone.repo" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.packagedrone.repo.adapter.deb" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.packagedrone.repo.adapter.deb.web" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.packagedrone.repo.adapter.docker" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.packagedrone.repo.adapter.maven" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.packagedrone.repo.adapter.maven.web" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.packagedrone.repo.adapter.npm" autoStart="true" startLevel="0" />

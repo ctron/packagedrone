@@ -102,6 +102,13 @@
          unpack="false"/>
 
    <plugin
+         id="org.eclipse.packagedrone.repo.adapter.docker"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.eclipse.packagedrone.repo.adapter.maven"
          download-size="0"
          install-size="0"
