@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Dockerregistry
+Bundle-SymbolicName: org.eclipse.packagedrone.dockerregistry
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.eclipse.dockerregistry.storage,
+ org.eclipse.dockerregistry.storage.drivers,
+ org.eclipse.dockerregistry.utils,
+ org.eclipse.packagedrone.dockerregistry.api,
+ org.eclipse.packagedrone.dockerregistry.api.factories,
+ org.eclipse.packagedrone.dockerregistry.api.impl,
+ org.eclipse.packagedrone.dockerregistry.invoker,
+ org.eclipse.packagedrone.dockerregistry.models

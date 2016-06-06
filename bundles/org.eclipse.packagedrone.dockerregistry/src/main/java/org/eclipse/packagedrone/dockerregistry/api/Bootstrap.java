@@ -1,31 +1,36 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Pubudu Fernando and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Pubudu Fernando - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.packagedrone.dockerregistry.api;
 
-import io.swagger.jaxrs.config.SwaggerContextService;
-import io.swagger.models.*;
-
-import io.swagger.models.auth.*;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 
-public class Bootstrap extends HttpServlet {
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    Info info = new Info()
-      .title("Docker Registry HTTP API v2")
-      .description("")
-      .termsOfService("")
-      .contact(new Contact()
-        .email(""))
-      .license(new License()
-        .name("")
-        .url(""));
+import io.swagger.jaxrs.config.SwaggerContextService;
+import io.swagger.models.Contact;
+import io.swagger.models.Info;
+import io.swagger.models.License;
+import io.swagger.models.Swagger;
 
-    ServletContext context = config.getServletContext();
-    Swagger swagger = new Swagger().info(info);
+public class Bootstrap extends HttpServlet
+{
+    @Override
+    public void init ( final ServletConfig config ) throws ServletException
+    {
+        final Info info = new Info ().title ( "Docker Registry HTTP API v2" ).description ( "" ).termsOfService ( "" ).contact ( new Contact ().email ( "" ) ).license ( new License ().name ( "" ).url ( "" ) );
 
-    new SwaggerContextService().withServletConfig(config).updateSwagger(swagger);
-  }
+        final ServletContext context = config.getServletContext ();
+        final Swagger swagger = new Swagger ().info ( info );
+
+        new SwaggerContextService ().withServletConfig ( config ).updateSwagger ( swagger );
+    }
 }

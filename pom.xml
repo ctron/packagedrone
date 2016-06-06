@@ -206,6 +206,7 @@
 		<module>features/org.eclipse.packagedrone.web.feature</module>
 
 		<module>products/org.eclipse.packagedrone.server</module>
+		<module>bundles/org.eclipse.packagedrone.dockerregistry</module>
 	</modules>
 
 	<build>

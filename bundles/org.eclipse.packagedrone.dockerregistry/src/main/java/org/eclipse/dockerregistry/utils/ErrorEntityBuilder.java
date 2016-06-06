@@ -1,23 +1,31 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Pubudu Fernando and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Pubudu Fernando - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.dockerregistry.utils;
-
-
-import org.eclipse.packagedrone.dockerregistry.models.Error;
-import org.eclipse.packagedrone.dockerregistry.models.ErrorErrors;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ErrorEntityBuilder {
-    public static Error buildError(String errorCode, String message, String details) {
-        ErrorErrors errorDetails = new ErrorErrors()
-                                        .code(errorCode)
-                                        .message(message)
-                                        .detail(details);
+import org.eclipse.packagedrone.dockerregistry.models.Error;
+import org.eclipse.packagedrone.dockerregistry.models.ErrorErrors;
 
-        List<ErrorErrors> errorsList = new ArrayList<>();
+public class ErrorEntityBuilder
+{
+    public static Error buildError ( final String errorCode, final String message, final String details )
+    {
+        final ErrorErrors errorDetails = new ErrorErrors ().code ( errorCode ).message ( message ).detail ( details );
 
-        errorsList.add(errorDetails);
+        final List<ErrorErrors> errorsList = new ArrayList<> ();
 
-        return new Error().errors(errorsList);
+        errorsList.add ( errorDetails );
+
+        return new Error ().errors ( errorsList );
     }
 }
