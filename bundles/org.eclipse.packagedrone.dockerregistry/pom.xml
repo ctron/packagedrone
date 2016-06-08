@@ -93,12 +93,12 @@
         </plugins>
     </build>
     <dependencies>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jersey2-jaxrs</artifactId>
-            <scope>compile</scope>
-            <version>${swagger-core-version}</version>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>io.swagger</groupId> -->
+<!--             <artifactId>swagger-jersey2-jaxrs</artifactId> -->
+<!--             <scope>compile</scope> -->
+<!--             <version>${swagger-core-version}</version> -->
+<!--         </dependency> -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -117,21 +117,21 @@
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet-api-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
-            <version>${jersey2-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-multipart</artifactId>
-            <version>${jersey2-version}</version>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>javax.servlet</groupId> -->
+<!--             <artifactId>servlet-api</artifactId> -->
+<!--             <version>${servlet-api-version}</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.glassfish.jersey.containers</groupId> -->
+<!--             <artifactId>jersey-container-servlet-core</artifactId> -->
+<!--             <version>${jersey2-version}</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.glassfish.jersey.media</groupId> -->
+<!--             <artifactId>jersey-media-multipart</artifactId> -->
+<!--             <version>${jersey2-version}</version> -->
+<!--         </dependency> -->
     </dependencies>
     <repositories>
         <repository>
