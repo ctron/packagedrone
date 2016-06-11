@@ -1,8 +1,17 @@
+/*******************************************************************************
+ * Copyright (c) 2016 Pubudu Fernando and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Pubudu Fernando - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.packagedrone.repo.adapter.dockerregistry.api;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -21,16 +30,16 @@ import org.eclipse.packagedrone.repo.adapter.dockerregistry.models.Tags;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.PATCH;
 
-@Path ( "/{name}" )
+@Path ( "/" )
 
-@io.swagger.annotations.Api ( description = "the {name} API" )
+@io.swagger.annotations.Api ( description = "the v2 API" )
 
 public class NameApi
 {
     private final NameApiService delegate = NameApiServiceFactory.getNameApi ();
 
     @GET
-    @Path ( "/blobs/{digest}" )
+    @Path ( "/{name:.*}/blobs/{digest}" )
     @Produces ( { MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM } )
 
     @io.swagger.annotations.ApiOperation ( value = "",
@@ -69,45 +78,45 @@ public class NameApi
         return this.delegate.nameBlobsDigestGet ( name, digest, securityContext );
     }
 
-    @HEAD
-    @Path ( "/blobs/{digest}" )
-
-    @io.swagger.annotations.ApiOperation ( value = "",
-            notes = "Same as GET, except only the headers are returned.",
-            response = void.class,
-            tags = {} )
-    @io.swagger.annotations.ApiResponses ( value = { @io.swagger.annotations.ApiResponse ( code = 200,
-            message = "The blob identified by digest is available. The blob content will be present in the body of the response.",
-            response = void.class ),
-
-            @io.swagger.annotations.ApiResponse ( code = 206,
-                    message = "The blob identified by digest is available. The specified chunk of blob content will be present in the body of the request.",
-                    response = void.class ),
-
-            @io.swagger.annotations.ApiResponse ( code = 307,
-                    message = "The blob identified by digest is available at the provided location.",
-                    response = void.class ),
-
-            @io.swagger.annotations.ApiResponse ( code = 400, message = "On failure", response = void.class ),
-
-            @io.swagger.annotations.ApiResponse ( code = 401, message = "Unauthorized access", response = void.class ),
-
-            @io.swagger.annotations.ApiResponse ( code = 404,
-                    message = "The blob, identified by name and digest, is unknown to the registry.",
-                    response = void.class ),
-
-            @io.swagger.annotations.ApiResponse ( code = 416,
-                    message = "The range specification cannot be satisfied for the requested content.",
-                    response = void.class ) } )
-    public Response nameBlobsDigestHead ( @ApiParam ( value = "Name of the image (including the namespace)",
-            required = true ) @PathParam ( "name" ) final String name, @ApiParam ( value = "Digest of a desired BLOB",
-                    required = true ) @PathParam ( "digest" ) final String digest, @Context final SecurityContext securityContext ) throws NotFoundException
-    {
-        return this.delegate.nameBlobsDigestHead ( name, digest, securityContext );
-    }
+    //    @HEAD
+    //    @Path ( "/{name:.*}/blobs/{digest}" )
+    //
+    //    @io.swagger.annotations.ApiOperation ( value = "",
+    //            notes = "Same as GET, except only the headers are returned.",
+    //            response = void.class,
+    //            tags = {} )
+    //    @io.swagger.annotations.ApiResponses ( value = { @io.swagger.annotations.ApiResponse ( code = 200,
+    //            message = "The blob identified by digest is available. The blob content will be present in the body of the response.",
+    //            response = void.class ),
+    //
+    //            @io.swagger.annotations.ApiResponse ( code = 206,
+    //                    message = "The blob identified by digest is available. The specified chunk of blob content will be present in the body of the request.",
+    //                    response = void.class ),
+    //
+    //            @io.swagger.annotations.ApiResponse ( code = 307,
+    //                    message = "The blob identified by digest is available at the provided location.",
+    //                    response = void.class ),
+    //
+    //            @io.swagger.annotations.ApiResponse ( code = 400, message = "On failure", response = void.class ),
+    //
+    //            @io.swagger.annotations.ApiResponse ( code = 401, message = "Unauthorized access", response = void.class ),
+    //
+    //            @io.swagger.annotations.ApiResponse ( code = 404,
+    //                    message = "The blob, identified by name and digest, is unknown to the registry.",
+    //                    response = void.class ),
+    //
+    //            @io.swagger.annotations.ApiResponse ( code = 416,
+    //                    message = "The range specification cannot be satisfied for the requested content.",
+    //                    response = void.class ) } )
+    //    public Response nameBlobsDigestHead ( @ApiParam ( value = "Name of the image (including the namespace)",
+    //            required = true ) @PathParam ( "name" ) final String name, @ApiParam ( value = "Digest of a desired BLOB",
+    //                    required = true ) @PathParam ( "digest" ) final String digest, @Context final SecurityContext securityContext ) throws NotFoundException
+    //    {
+    //        return this.delegate.nameBlobsDigestHead ( name, digest, securityContext );
+    //    }
 
     @POST
-    @Path ( "/blobs/uploads" )
+    @Path ( "/{name:.*}/blobs/uploads" )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Upload a blob identified by the digest parameter in single request. This upload will not be resumable unless a recoverable error is returned.",
@@ -134,7 +143,7 @@ public class NameApi
     }
 
     @DELETE
-    @Path ( "/blobs/uploads/{uuid}" )
+    @Path ( "/{name:.*}/blobs/uploads/{uuid}" )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Cancel outstanding upload processes, releasing associated resources. If this is not called, the unfinished uploads will eventually timeout.",
@@ -160,7 +169,7 @@ public class NameApi
     }
 
     @GET
-    @Path ( "/blobs/uploads/{uuid}" )
+    @Path ( "/{name:.*}/blobs/uploads/{uuid}" )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Retrieve status of upload identified by uuid. The primary purpose of this endpoint is to resolve the current status of a resumable upload.",
@@ -186,7 +195,7 @@ public class NameApi
     }
 
     @PATCH
-    @Path ( "/blobs/uploads/{uuid}" )
+    @Path ( "/{name:.*}/blobs/uploads/{uuid}" )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Upload a stream of data to upload without completing the upload.",
@@ -216,7 +225,7 @@ public class NameApi
     }
 
     @PUT
-    @Path ( "/blobs/uploads/{uuid}" )
+    @Path ( "/{name:.*}/blobs/uploads/{uuid}" )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Complete the upload, providing all the data in the body, if necessary. A request without a body will just complete the upload with previously uploaded content.",
@@ -244,7 +253,7 @@ public class NameApi
     }
 
     @DELETE
-    @Path ( "/manifests/{reference}" )
+    @Path ( "/{name:.*}/manifests/{reference}" )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Delete the manifest identified by name and reference where reference can be a tag or digest.",
@@ -270,7 +279,7 @@ public class NameApi
     }
 
     @GET
-    @Path ( "/manifests/{reference}" )
+    @Path ( "/{name:.*}/manifests/{reference}" )
     @Produces ( { MediaType.APPLICATION_JSON } )
 
     @io.swagger.annotations.ApiOperation ( value = "",
@@ -301,7 +310,7 @@ public class NameApi
     }
 
     @PUT
-    @Path ( "/manifests/{reference}" )
+    @Path ( "/{name:.*}/manifests/{reference}" )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Put the manifest identified by name and reference where reference can be a tag or digest.",
@@ -325,7 +334,7 @@ public class NameApi
     }
 
     @GET
-    @Path ( "/tags/list" )
+    @Path ( "/{name:.*}/tags/list" )
     @Produces ( { MediaType.APPLICATION_JSON } )
 
     @io.swagger.annotations.ApiOperation ( value = "",
