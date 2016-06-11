@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 
 public class FileSystemPathBuilder
 {
-    private final String rootPath = "/home/pubudu/gsoc/docker/registry/v2/"; //TODO: Make this configurable through the yaml file
+    private final String rootPath;
 
     private final Path registryRoot; // Represents the root directory of the Registry storage
 
@@ -31,6 +31,7 @@ public class FileSystemPathBuilder
         this.registryRoot = registryRoot;
         this.blobs = blobs;
         this.repositories = repositories;
+        this.rootPath = registryRoot.toString ();
     }
 
     public Path getPathForManifest ( final String name, final String digest )

@@ -40,7 +40,7 @@ public class FileSystemStorageDriver implements StorageDriver
 
     private final String name = "File System Storage Driver";
 
-    private final String rootPath = "/home/pubudu/gsoc/docker/registry/v2/"; //TODO: Make this configurable through the yaml file
+    private final String rootPath = "/var/lib/registry/docker/registry/v2/"; //TODO: Make this configurable through the yaml file
 
     private final Path registryRoot; // Represents the root directory of the Registry storage
 
