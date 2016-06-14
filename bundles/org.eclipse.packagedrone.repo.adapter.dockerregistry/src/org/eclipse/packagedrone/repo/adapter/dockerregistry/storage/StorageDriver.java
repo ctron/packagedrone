@@ -12,6 +12,7 @@ package org.eclipse.packagedrone.repo.adapter.dockerregistry.storage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.file.Path;
@@ -28,7 +29,7 @@ public interface StorageDriver
 {
     /**
      * This method is used to retrieve the name of the storage driver
-     * 
+     *
      * @return String The name of this storage driver
      */
     String getName ();
@@ -37,7 +38,7 @@ public interface StorageDriver
      * This method retrieves an InputStream for the file specified by the path
      * parameter. The offset
      * can be used as a means of resuming a stream reading.
-     * 
+     *
      * @param path
      *            Path of the file to be read
      * @param offset
@@ -56,7 +57,7 @@ public interface StorageDriver
     /**
      * This method returns a FileWriter to write data to the file specified by
      * the path parameter.
-     * 
+     *
      * @param path
      *            Destination file to write data to
      * @param append
@@ -66,14 +67,14 @@ public interface StorageDriver
      */
     Writer getWriterForManifests ( String name, String reference );
 
-    Writer getWriterForBlobPostUpload ( String name, String digest );
+    OutputStream getOutputStreamForBlobPostUpload ( String name, String digest ) throws IOException;
 
     Writer getWriterForBlobUploadUuid ( String name, String uuid );
 
     /**
      * This method returns a FileInfo object containing data about the file
      * specified by the path parameter.
-     * 
+     *
      * @param path
      *            Path of the file
      * @return FileInfo
@@ -83,7 +84,7 @@ public interface StorageDriver
     /**
      * This method returns a list of direct descendants of the path specified by
      * the path parameter.
-     * 
+     *
      * @return List<Path> A list of direct descendants
      * @param name
      */
@@ -93,7 +94,7 @@ public interface StorageDriver
      * This method copies the file at sourcePath to the path specified by the
      * destinationPath. The original file
      * is then deleted.
-     * 
+     *
      * @param sourcePath
      *            Source file to be moved
      * @param destinationPath
@@ -104,7 +105,7 @@ public interface StorageDriver
 
     /**
      * This method deletes the file specified by the path parameter.
-     * 
+     *
      * @param path
      *            File to be deleted
      * @return boolean Returns true if the file was successfully deleted.
@@ -117,7 +118,7 @@ public interface StorageDriver
      * This method returns a URL the file specified by the path parameter. This
      * URL can be used to
      * retrieve content located at the given path.
-     * 
+     *
      * @param path
      *            Path of the file
      * @param options

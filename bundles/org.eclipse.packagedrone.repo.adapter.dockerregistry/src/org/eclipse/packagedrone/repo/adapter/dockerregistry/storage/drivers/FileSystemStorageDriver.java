@@ -14,10 +14,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Writer;
 import java.net.URL;
 import java.nio.file.Path;
@@ -40,7 +42,7 @@ public class FileSystemStorageDriver implements StorageDriver
 
     private final String name = "File System Storage Driver";
 
-    private final String rootPath = "/var/lib/registry/docker/registry/v2/"; //TODO: Make this configurable through the yaml file
+    private final String rootPath = "/tmp/registry/v2/"; //TODO: Make this configurable through the yaml file
 
     private final Path registryRoot; // Represents the root directory of the Registry storage
 
@@ -133,9 +135,10 @@ public class FileSystemStorageDriver implements StorageDriver
     }
 
     @Override
-    public Writer getWriterForBlobPostUpload ( final String name, final String digest )
+    public OutputStream getOutputStreamForBlobPostUpload ( final String name, final String digest ) throws FileNotFoundException, IOException
     {
-        return null;
+        final OutputStream out = new FileOutputStream ( this.pathBuilder.createPathForBlob ( name, digest ).toString () );
+        return out;
     }
 
     @Override

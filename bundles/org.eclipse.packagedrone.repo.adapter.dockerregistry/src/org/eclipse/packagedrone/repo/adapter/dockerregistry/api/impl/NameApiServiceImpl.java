@@ -13,6 +13,7 @@ package org.eclipse.packagedrone.repo.adapter.dockerregistry.api.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -70,13 +71,13 @@ public class NameApiServiceImpl extends NameApiService
         }
     }
 
-    @Override
+    /*@Override
     public Response nameBlobsDigestHead ( final String name, final String digest, final SecurityContext securityContext ) throws NotFoundException
     {
         return null;
     }
 
-    /*    if (!isValidNamespace(name))
+        if (!isValidNamespace(name))
             return Response.status(Response.Status.BAD_REQUEST).build();
 
         StorageDriver driver = FileSystemStorageDriver.getInstance();
@@ -104,10 +105,25 @@ public class NameApiServiceImpl extends NameApiService
     }*/
 
     @Override
-    public Response nameBlobsUploadsPost ( final String name, final String digest, final SecurityContext securityContext ) throws NotFoundException
+    public Response nameBlobsUploadsPost ( final String name, final String digest, final SecurityContext securityContext, final InputStream inputStream ) throws NotFoundException
     {
-        // do some magic!
-        return Response.ok ().entity ( new ApiResponseMessage ( ApiResponseMessage.OK, "magic!" ) ).build ();
+        final StorageDriver driver = FileSystemStorageDriver.getInstance ();
+
+        if ( digest != null )
+        {
+            try
+            {
+                final OutputStream out = driver.getOutputStreamForBlobPostUpload ( name, digest );
+                writeToStream ( inputStream, out );
+            }
+            catch ( final IOException e )
+            {
+                e.printStackTrace ();
+                return Response.status ( Response.Status.INTERNAL_SERVER_ERROR ).build ();
+            }
+        }
+
+        return Response.status ( Response.Status.CREATED ).header ( "Location", "/v2/" + name + "/blobs/" + digest ).header ( "Content-Length", 0 ).header ( "Docker-Upload-UUID", digest ).build ();
     }
 
     @Override
@@ -230,6 +246,19 @@ public class NameApiServiceImpl extends NameApiService
         }
 
         return output.toString ();
+    }
+
+    private void writeToStream ( final InputStream inputStream, final OutputStream outputStream ) throws IOException
+    {
+        int bytesRead = 0;
+        final byte[] bytes = new byte[1024];
+
+        while ( ( bytesRead = inputStream.read ( bytes ) ) != -1 )
+        {
+            outputStream.write ( bytes, 0, bytesRead );
+        }
+        outputStream.flush ();
+        outputStream.close ();
     }
 
     private String cleanupString ( final String str )

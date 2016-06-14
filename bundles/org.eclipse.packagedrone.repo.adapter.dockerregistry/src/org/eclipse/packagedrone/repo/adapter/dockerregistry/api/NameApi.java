@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.packagedrone.repo.adapter.dockerregistry.api;
 
+import java.io.InputStream;
+
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -117,6 +120,7 @@ public class NameApi
 
     @POST
     @Path ( "/{name:.*}/blobs/uploads" )
+    @Consumes ( MediaType.APPLICATION_OCTET_STREAM )
 
     @io.swagger.annotations.ApiOperation ( value = "",
             notes = "Upload a blob identified by the digest parameter in single request. This upload will not be resumable unless a recoverable error is returned.",
@@ -137,9 +141,9 @@ public class NameApi
                     response = void.class ) } )
     public Response nameBlobsUploadsPost ( @ApiParam ( value = "Name of the image (including the namespace)",
             required = true ) @PathParam ( "name" ) final String name, @ApiParam (
-                    value = "Digest of uploaded blob. If present, the upload will be completed, in a single request, with contents of the request body as the resulting blob." ) @QueryParam ( "digest" ) final String digest, @Context final SecurityContext securityContext ) throws NotFoundException
+                    value = "Digest of uploaded blob. If present, the upload will be completed, in a single request, with contents of the request body as the resulting blob." ) @QueryParam ( "digest" ) final String digest, final InputStream inputStream, @Context final SecurityContext securityContext ) throws NotFoundException
     {
-        return this.delegate.nameBlobsUploadsPost ( name, digest, securityContext );
+        return this.delegate.nameBlobsUploadsPost ( name, digest, securityContext, inputStream );
     }
 
     @DELETE

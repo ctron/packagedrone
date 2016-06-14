@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.packagedrone.repo.adapter.dockerregistry.api;
 
+import java.io.InputStream;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
@@ -17,9 +19,9 @@ public abstract class NameApiService
 {
     public abstract Response nameBlobsDigestGet ( String name, String digest, SecurityContext securityContext ) throws NotFoundException;
 
-    public abstract Response nameBlobsDigestHead ( String name, String digest, SecurityContext securityContext ) throws NotFoundException;
+    //    public abstract Response nameBlobsDigestHead ( String name, String digest, SecurityContext securityContext ) throws NotFoundException;
 
-    public abstract Response nameBlobsUploadsPost ( String name, String digest, SecurityContext securityContext ) throws NotFoundException;
+    public abstract Response nameBlobsUploadsPost ( String name, String digest, SecurityContext securityContext, InputStream inputStream ) throws NotFoundException;
 
     public abstract Response nameBlobsUploadsUuidDelete ( String name, String uuid, SecurityContext securityContext ) throws NotFoundException;
 
