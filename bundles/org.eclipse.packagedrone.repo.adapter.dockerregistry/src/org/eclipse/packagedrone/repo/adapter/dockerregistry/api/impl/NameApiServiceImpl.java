@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 
 import org.eclipse.packagedrone.repo.adapter.dockerregistry.api.ApiResponseMessage;
@@ -29,6 +30,7 @@ import org.eclipse.packagedrone.repo.adapter.dockerregistry.models.Error;
 import org.eclipse.packagedrone.repo.adapter.dockerregistry.models.Tags;
 import org.eclipse.packagedrone.repo.adapter.dockerregistry.storage.StorageDriver;
 import org.eclipse.packagedrone.repo.adapter.dockerregistry.storage.drivers.FileSystemStorageDriver;
+import org.eclipse.packagedrone.repo.adapter.dockerregistry.storage.drivers.PackageDroneStorageDriver;
 import org.eclipse.packagedrone.repo.adapter.dockerregistry.utils.Digest;
 import org.eclipse.packagedrone.repo.adapter.dockerregistry.utils.DockerMediaTypes;
 import org.eclipse.packagedrone.repo.adapter.dockerregistry.utils.ErrorCodes;
@@ -76,28 +78,28 @@ public class NameApiServiceImpl extends NameApiService
     {
         return null;
     }
-
+    
         if (!isValidNamespace(name))
             return Response.status(Response.Status.BAD_REQUEST).build();
-
+    
         StorageDriver driver = FileSystemStorageDriver.getInstance();
-
+    
         if (!driver.repositoryExists(name))
             return Response.status(Response.Status.NOT_FOUND).build();
-
+    
         try {
             InputStream input = driver.getInputStreamForBlob(name, digest);
             long contentLength = 0;
-
+    
             while (input.read() != -1)
                 contentLength++;
-
+    
             Logger log = LoggerFactory.getLogger(this.getClass());
             log.info("Content Length: " + contentLength);
             return Response.ok(MediaType.APPLICATION_OCTET_STREAM)
                     .header("Docker-Content-Digest", digest)
                     .header("Content-Length", contentLength).build();
-
+    
         } catch (IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -136,8 +138,17 @@ public class NameApiServiceImpl extends NameApiService
     @Override
     public Response nameBlobsUploadsUuidGet ( final String name, final String uuid, final SecurityContext securityContext ) throws NotFoundException
     {
-        // do some magic!
-        return Response.ok ().entity ( new ApiResponseMessage ( ApiResponseMessage.OK, "magic!" ) ).build ();
+        final StorageDriver driver = PackageDroneStorageDriver.getInstance ();
+        try
+        {
+            driver.getInputStreamForManifest ( name, null );
+        }
+        catch ( final IOException e )
+        {
+            e.printStackTrace ();
+            return Response.status ( Status.INTERNAL_SERVER_ERROR ).build ();
+        }
+        return Response.ok ().header ( "Request=Successfully-Completed", "true" ).build ();
     }
 
     @Override
